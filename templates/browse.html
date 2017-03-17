@@ -1,0 +1,14 @@
+{% extends 'mainpage.html' %}
+
+{% block content %}
+
+<h1> List of Classes </h1>
+
+{% for course in courses %}
+
+<h2 class="course-name"><a href="/browse">{{course.name}}</a></h2>
+<p class="course-description">{{course.description}}</p>
+
+{% endfor %}
+
+{% endblock %}
