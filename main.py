@@ -27,15 +27,44 @@ class MainHandler(Handler):
 
 class BrowseHandler(Handler):
     """Renders list of all available courses."""
-    def render_courselist(self, name="", description=""):
-        courses = db.GqlQuery("SELECT * FROM Course")
-        self.render("browse.html", name=name, description=description)
+    def render_courselist(self, name="", instructor=""):
+        courses = db.GqlQuery("SELECT * FROM Course ")
+        self.render("browse.html", name=name, instructor=instructor, courses=courses)
 
     def get(self):
         self.render_courselist()
 
+class ViewCourseHandler(Handler):
+    """Renders individual course info"""
+    def get(self, id, name="", instructor="", description=""):
+        indcourse = Course.get_by_id(int(id), parent=None)
+        self.render("indclass.html", name=name, instructor=instructor, description=description, indcourse=indcourse)
+
+class CreateCourseHandler(Handler):
+    """Renders create.html template and adds course to db"""
+    def render_create(self, name="", instructor="", description="", error=""):
+        self.render("create.html", name=name, instructor=instructor, description=description, error=error)
+
+    def get(self):
+        self.render_create()
+
+    def post(self):
+        name = self.request.get("course_name")
+        instructor = self.request.get("instructor_name")
+        description = self.request.get("description")
+
+        if name and instructor and description:
+            b = Course(name=name, instructor=instructor, description=description)
+            b.put()
+
+            self.redirect('/browse')
+        else:
+            error = "Please enter a Course Name, Instructor, and Description!"
+            self.render_create(name, instructor, description, error)
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
-    ('/browse', BrowseHandler)
+    ('/browse', BrowseHandler),
+    webapp2.Route('/<id:\d+>', ViewCourseHandler),
+    ('/create', CreateCourseHandler)
 ], debug=True)

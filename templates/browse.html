@@ -6,8 +6,8 @@
 
 {% for course in courses %}
 
-<h2 class="course-name"><a href="/browse">{{course.name}}</a></h2>
-<p class="course-description">{{course.description}}</p>
+<h2 class="name"><a href="/{{course.key().id()}}">{{course.name}}</a></h2>
+<p class="description">{{course.description}}</p>
 
 {% endfor %}
 

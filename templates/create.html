@@ -1,0 +1,25 @@
+{% extends "mainpage.html" %}
+
+{% block content %}
+
+<form method="post">
+        <label>
+          <div>Course name</div>
+          <input type="text" name="course_name" value="{{name}}">
+        </label>
+
+        <lable>
+          <div>Instructor</div>
+          <input type="text" name="instructor_name" value={{instructor}}>
+        </label>
+
+        <label>
+          <div>Course Description</div>
+          <textarea name="description">{{description}}</textarea>
+        </label>
+
+        <div class="error">{{error}}</div>
+
+        <input type="submit">
+
+{% endblock %}
