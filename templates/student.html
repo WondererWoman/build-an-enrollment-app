@@ -1,1 +1,24 @@
-{% extnads "mainpage.html" %}
+{% extends "mainpage.html" %}
+
+{% block content %}
+
+<h2>Enroll in a Class</h2>
+<form method=post>
+  <select name="course_list">
+    {% for course in courses %}
+    <option name="course_name">{{course.name}}</option>
+    {% endfor %}
+  </select>
+
+  <input type="submit" value="Enroll"/>
+</form>
+
+<h2>My Class List</h2>
+<form>
+  <ul>
+    {% for item in mylist %}
+    <li>{{item}}</li>
+    {% endfor %}
+  </ul>
+</form>
+{% endblock %}
